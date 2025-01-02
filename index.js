@@ -33,6 +33,10 @@ app.get('/api/persons', (request, response) => {
 	response.json(persons);
 })
 
+app.get('/info', (request, response) =>{
+	response.send(`<div><p>phonebook has information for ${persons.length} people.</p>${new Date()}</div>`)
+})
+
 // app.use(express.json());
 const PORT=3001;
 app.listen(PORT, ()=> {
