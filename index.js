@@ -1,6 +1,6 @@
 const express = require('express');
 
-const persons = [
+let persons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -42,6 +42,13 @@ app.get('/api/persons/:id', (request, response) => {
 	const match = persons.find(person=>person.id===id)
 	if(match)	response.json(match)
 	else 		response.status(404).end('not found')
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+	console.log('request to delete received')
+	const id = request.params.id;
+	persons = persons.filter(person=>person.id!==id);
+	response.status(204).end(`absence of the phonebook entry of id ${id} now ensured.`)
 })
 
 // app.use(express.json());
