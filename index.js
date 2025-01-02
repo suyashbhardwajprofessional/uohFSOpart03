@@ -37,6 +37,13 @@ app.get('/info', (request, response) =>{
 	response.send(`<div><p>phonebook has information for ${persons.length} people.</p>${new Date()}</div>`)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+	const id = request.params.id;
+	const match = persons.find(person=>person.id===id)
+	if(match)	response.json(match)
+	else 		response.status(404).end('not found')
+})
+
 // app.use(express.json());
 const PORT=3001;
 app.listen(PORT, ()=> {
