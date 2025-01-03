@@ -51,7 +51,24 @@ app.delete('/api/persons/:id', (request, response) => {
 	response.status(204).end(`absence of the phonebook entry of id ${id} now ensured.`)
 })
 
-// app.use(express.json());
+app.use(express.json());
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  console.log('request body is ', request.body);
+  if(!body.name) return response.status(400).json({error:'name is missing'})
+  else if(!body.number) return response.status(400).json({error:'number is missing'})
+  else if(persons.find(person=>person.name===body.name)) return response.status(400).json({error:'already in phonebook! name must be unique'})
+
+  const personObj = {
+    name: body.name,
+    number: body.number,
+    id: String(Math.ceil(Math.random()*999+1))
+  }
+
+  persons = persons.concat(personObj)
+  response.json(personObj)
+})
+
 const PORT=3001;
 app.listen(PORT, ()=> {
 	console.log('server now running at port 3001');
