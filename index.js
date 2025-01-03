@@ -25,7 +25,15 @@ let persons = [
 ];
 
 const app = express();
-app.use(morgan('tiny'))
+// app.use(morgan('tiny'))
+// app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+// log only 4xx and 5xx responses to console
+/*app.use(morgan('dev', {
+  skip: function (req, res) { return res.statusCode < 400 }
+}))*/
+
+morgan.token('payload', function getBody (req) { return JSON.stringify(req.body) })
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :payload'))
 
 app.get('/api/test', (request,response)=>{
 	response.send('hey there!');
